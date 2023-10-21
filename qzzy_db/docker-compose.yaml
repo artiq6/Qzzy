@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  db:
+    image: postgres
+    container_name: postgres_qzzy
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: nest
+      POSTGRES_PASSWORD: nestJ$
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: artiq6@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: nestJ$
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  local_pgdata:
+  pgadmin-data:

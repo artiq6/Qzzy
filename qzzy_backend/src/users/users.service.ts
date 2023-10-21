@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
-
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './user.entity';
 
 let allUsers = [{
     id: 1,
@@ -19,6 +21,15 @@ let allUsers = [{
 
 @Injectable()
 export class UsersService {
+    
+    constructor(
+        @InjectRepository(User)
+        private readonly usersRepository: Repository<User>){}
+    
+    findAll(): Promise<User[]>{
+        return this.usersRepository.find();
+    }
+    
     getUsers() {
         return allUsers;
     }
@@ -35,13 +46,13 @@ export class UsersService {
         return newUser;
     }
 
-    removeById(id: number){
-        allUsers = allUsers.filter(x=>x.id!== id);
+    removeById(id: number) {
+        allUsers = allUsers.filter(x => x.id !== id);
     }
 
-    editUserPassword(id: number, password: string){
-        const user = allUsers.find(x=>x.id===id);
-        user.password=password
+    editUserPassword(id: number, password: string) {
+        const user = allUsers.find(x => x.id === id);
+        user.password = password
         return user
     }
 }
