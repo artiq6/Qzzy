@@ -31,3 +31,21 @@ Aplikacja zapewnia zarówno użytkownikom, jak i administratorom funkcjonalnośc
 - tworzenie quizów
 - modyfikacja quizów i użytkowników
 - reszta uprawnień jak użytkownik
+
+### Endpointy:
+#### users:
+- POST /users/register
+- POST /users/login
+- PUT /users/{userID}
+- GET /users/{userID}
+- GET /users
+- DELETE /users/{userID}
+
+#### quizzes:
+- GET /quizzes
+- POST /quizzes/add
+- PUT /quizzes/{quizID}
+- DELETE /quizzes/{quizID}
+
+#### score:
+- GET /score

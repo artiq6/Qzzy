@@ -37,6 +37,13 @@ export class UsersService {
     getById(id: number) {
         return allUsers.find(x => x.id === id);
     }
+    registerUser(name: string, surname: string, mail: string, password: string){
+        const id = Math.round(Math.random() * 100) + 1
+        const newUser = { id, name, surname, mail, password }
+        this.usersRepository.insert(newUser);
+
+        return newUser;
+    }
 
     addUser(name: string, surname: string, mail: string, password: string) {
         const id = Math.round(Math.random() * 100) + 1

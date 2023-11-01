@@ -22,9 +22,10 @@ export class UsersController {
         return this.usersService.getById(parseInt(id));
     }
 
-    @Post('register')
-
-
+    @Post('/register')
+    registerUser(@Body() body: CreateUserDto){
+        return this.usersService.registerUser(body.name,body.surname,body.mail,body.password)
+    }
     @Post('/')
     addUser(@Body() body: CreateUserDto){
         return this.usersService.addUser(body.name,body.surname,body.mail,body.password)
