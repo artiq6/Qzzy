@@ -1,56 +1,71 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Patch, Post, Query, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dtos/user.dto';
-import { EditUserPasswordDto } from './dtos/edit-password-user.dto';
-
+import { CreateUserDto, EditUserPasswordDto } from './dtos/user.dto';
+import { User } from './user.entity';
 @Controller('users')
 export class UsersController {
-    constructor(private usersService: UsersService){}
+    constructor(private usersService: UsersService) { }
 
     @Get('/')
-    getUsers(){
-        return this.usersService.getUsers();
-    }
-    @Get('/db')
-    findAll(){
+    async findAll(): Promise<User[]> {
         return this.usersService.findAll();
     }
 
-
     @Get('/:id')
-    getUser(@Param('id') id: string){
-        return this.usersService.getById(parseInt(id));
+    async findOne(@Param('id') id: number) {
+        const user = await this.usersService.findOne(id);
+        if (!user) {
+            throw new NotFoundException("User with id does not exist!")
+        } else {
+            return user;
+        }
     }
 
     @Post('/register')
-    registerUser(@Body() body: CreateUserDto){
-        return this.usersService.registerUser(body.name,body.surname,body.mail,body.password)
-    }
-    @Post('/')
-    addUser(@Body() body: CreateUserDto){
-        return this.usersService.addUser(body.name,body.surname,body.mail,body.password)
+    async register(@Body() user: CreateUserDto) {
+        return this.usersService.register(user);
     }
 
+    //update user
+    @Put('/passwordedit/:id')
+    async update(@Param('id') id: number, @Body() password:EditUserPasswordDto ): Promise<any> {
+        console.log("TEST:",id,password)
+        return this.usersService.update(id, password);
+    }
 
     @Delete('/:id')
-    @HttpCode(204)
-    removeUser(@Param('id') id: string){
-        return this.usersService.removeById(parseInt(id));
+    async delete(@Param('id') id: number): Promise<any>{
+        const user= await this.usersService.findOne(id);
+        if(!user){
+            throw new NotFoundException("User does not exist!");
+        }
+        return this.usersService.delete(id);
     }
+    // @Post('/')
+    // addUser(@Body() body: CreateUserDto){
+    //     return this.usersService.addUser(body.email,body.login,body.password)
+    // }
 
 
-    @Patch('/:id')
-    editUser(@Body() body: EditUserPasswordDto, @Param('id')id: string){
-        console.log(body)
-        return this.usersService.editUserPassword(parseInt(id), body.password)
-    }
+    // @Delete('/:id')
+    // @HttpCode(204)
+    // removeUser(@Param('id') id: string){
+    //     return this.usersService.removeById(parseInt(id));
+    // }
 
-    
+
+    // @Patch('/:id')
+    // editUser(@Body() body: EditUserPasswordDto, @Param('id')id: string){
+    //     console.log(body)
+    //     return this.usersService.editUserPassword(parseInt(id), body.password)
+    // }
+
+
     @Get('/hello/:name/:surname')
     sayHello(
         @Param('name') name: string,
         @Param('surname') surname: string,
-    ){
+    ) {
         return `Hello, ${name} ${surname}`
     }
 
