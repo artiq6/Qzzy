@@ -2,9 +2,12 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
+import { QuizzesModule } from './quizzes/quizzes.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { User } from './users/user.entity';
+import { Question } from './questions/question.entity';
+import { Quiz } from './quizzes/quiz.entity';
 
 @Module({
   imports: [
@@ -17,9 +20,9 @@ import { User } from './users/user.entity';
       database: 'qzzy',
       synchronize: true,
       logging: true,
-      entities: [User],
+      entities: [User,Quiz,Question],
     }),
-    UsersModule],
+    UsersModule, QuizzesModule],
   controllers: [AppController],
   providers: [AppService],
 })
