@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InjectRepository,InjectDataSource } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Quiz } from './quiz.entity';
 import { Question } from '../questions/question.entity';
 
@@ -8,8 +8,9 @@ import { Question } from '../questions/question.entity';
 export class QuizzesService {
     
     constructor(
-        @InjectRepository(Quiz)
-        private readonly quizRepository: Repository<Quiz>){}
+        @InjectRepository(Quiz) private readonly quizRepository: Repository<Quiz>,
+        @InjectDataSource() private dataSource: DataSource
+        ){}
         
     async findAll(): Promise<Quiz[]>{
         return this.quizRepository.find();

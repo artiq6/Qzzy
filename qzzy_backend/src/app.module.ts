@@ -8,6 +8,7 @@ import { DataSource } from 'typeorm';
 import { User } from './users/user.entity';
 import { Question } from './questions/question.entity';
 import { Quiz } from './quizzes/quiz.entity';
+import { Score } from './scores/score.entity';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { Quiz } from './quizzes/quiz.entity';
       database: 'qzzy',
       synchronize: true,
       logging: true,
-      entities: [User,Quiz,Question],
+      entities: [User,Quiz,Question,Score],
     }),
     UsersModule, QuizzesModule],
   controllers: [AppController],
