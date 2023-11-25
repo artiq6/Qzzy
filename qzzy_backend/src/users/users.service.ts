@@ -18,9 +18,17 @@ export class UsersService {
     async findOne(id: number): Promise<User>{
         return this.usersRepository.findOne({where: {id}});
     }
+    
+    async findOneByEmail(mail:string):Promise<User>{
+        return this.usersRepository.findOne({where: {mail}})
+    }
 
     async register(user: Partial<User>): Promise<User>{
-        user.password=await bcrypt.hash(user.password,10);
+        const salt = await bcrypt.genSalt(10)
+        user.password=await bcrypt.hash(user.password, salt);
+        if(!user.login){
+            user.login=user.mail.split("@")[0];
+        }
         const newuser= this.usersRepository.create(user);
         return this.usersRepository.save(newuser)
     }

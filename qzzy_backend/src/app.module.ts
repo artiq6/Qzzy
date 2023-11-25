@@ -9,6 +9,8 @@ import { User } from './users/user.entity';
 import { Question } from './questions/question.entity';
 import { Quiz } from './quizzes/quiz.entity';
 import { Score } from './scores/score.entity';
+import { AuthModule } from './auth/auth.module';
+import {ConfigModule} from '@nestjs/config';
 
 @Module({
   imports: [
@@ -23,7 +25,10 @@ import { Score } from './scores/score.entity';
       logging: true,
       entities: [User,Quiz,Question,Score],
     }),
-    UsersModule, QuizzesModule],
+    UsersModule, 
+    QuizzesModule, 
+    AuthModule,
+    ],
   controllers: [AppController],
   providers: [AppService],
 })

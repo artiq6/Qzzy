@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Patch, Post, Query, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Patch, Post, Query, Put, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, EditUserPasswordDto } from './dtos/user.dto';
 import { User } from './user.entity';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Controller('users')
 export class UsersController {
     constructor(private usersService: UsersService) { }
@@ -14,6 +15,15 @@ export class UsersController {
     @Get('/:id')
     async findOne(@Param('id') id: number) {
         const user = await this.usersService.findOne(id);
+        if (!user) {
+            throw new NotFoundException("User with id does not exist!")
+        } else {
+            return user;
+        }
+    }
+    @Post('/email')
+    async findByEmail(@Body() data: any){
+        const user = await this.usersService.findOneByEmail(data.mail)
         if (!user) {
             throw new NotFoundException("User with id does not exist!")
         } else {
