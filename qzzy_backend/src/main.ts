@@ -6,7 +6,6 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
-
   const options = new DocumentBuilder()
     .setTitle('SWAGGER for Qzzy')
     .setDescription('endpoints for Qzzy project')

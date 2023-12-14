@@ -30,8 +30,8 @@ export class QuizzesService {
     //     return this.usersRepository.findOne({ where: { id } });
     // }
 
-    // async delete(id: number): Promise<void> {
-    //     await this.usersRepository.delete(id);
-    // }
+    async delete(id: number): Promise<void> {
+        await this.quizRepository.delete(id);
+    }
     
 }

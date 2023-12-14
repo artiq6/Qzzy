@@ -26,8 +26,6 @@ export class QuizzesController {
         return this.quizzesService.add(quiz);
     }
 
-
-
     // //update user
     // @Put('/passwordedit/:id')
     // async update(@Param('id') id: number, @Body() password:EditUserPasswordDto ): Promise<any> {
@@ -35,12 +33,12 @@ export class QuizzesController {
     //     return this.usersService.update(id, password);
     // }
 
-    // @Delete('/:id')
-    // async delete(@Param('id') id: number): Promise<any>{
-    //     const user= await this.usersService.findOne(id);
-    //     if(!user){
-    //         throw new NotFoundException("User does not exist!");
-    //     }
-    //     return this.usersService.delete(id);
-    // }
+    @Delete('/:id')
+    async delete(@Param('id') id: number): Promise<any>{
+        const quiz= await this.quizzesService.findOne(id);
+        if(!quiz){
+            throw new NotFoundException("Quiz does not exist!");
+        }
+        return this.quizzesService.delete(id);
+    }
 }

@@ -7,8 +7,6 @@ import { Score } from './score.entity';
 export class ScoresController {
     constructor(private scoreService: ScoresService) { }
 
-
-
     @Get('/all')
     async findAll(): Promise<Score[]> {
         return this.scoreService.findAll();
@@ -22,7 +20,6 @@ export class ScoresController {
     async getTopUser(): Promise<any> {
         return this.scoreService.getTopUser();
     }
-
 
     @Post("/:id")
     async create(@Param('id') quizId: number, @Body() scoreData: Partial<Score>): Promise<Score> {

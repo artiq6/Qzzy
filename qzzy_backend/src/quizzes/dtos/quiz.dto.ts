@@ -1,4 +1,4 @@
-import {IsString, IsOptional} from "class-validator";
+import {IsString, IsOptional, IsBoolean} from "class-validator";
 export class CreateQuizDto{
     @IsString()
     name: string;
@@ -8,5 +8,9 @@ export class CreateQuizDto{
 
     @IsString()
     @IsOptional()
-    img_url?: string;
+    img_url: string;
+
+    @IsBoolean()
+    @IsOptional()
+    is_active: boolean;
 }

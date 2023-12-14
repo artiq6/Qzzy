@@ -18,7 +18,7 @@ export class Quiz{
     img_url: string;
 
     @Column({default: true})
-    isactive: boolean;
+    is_active: boolean;
 
     @OneToMany(() => Question, (question) => question.quiz)
     questions: Question[];  

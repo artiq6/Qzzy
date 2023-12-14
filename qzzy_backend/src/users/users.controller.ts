@@ -3,15 +3,18 @@ import { UsersService } from './users.service';
 import { CreateUserDto, EditUserPasswordDto } from './dtos/user.dto';
 import { User } from './user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+
 @Controller('users')
 export class UsersController {
     constructor(private usersService: UsersService) { }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/')
     async findAll(): Promise<User[]> {
         return this.usersService.findAll();
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/:id')
     async findOne(@Param('id') id: number) {
         const user = await this.usersService.findOne(id);
@@ -21,6 +24,7 @@ export class UsersController {
             return user;
         }
     }
+    @UseGuards(JwtAuthGuard)
     @Post('/email')
     async findByEmail(@Body() data: any){
         const user = await this.usersService.findOneByEmail(data.mail)
@@ -37,12 +41,14 @@ export class UsersController {
     }
 
     //update user
+    @UseGuards(JwtAuthGuard)
     @Put('/passwordedit/:id')
     async update(@Param('id') id: number, @Body() password:EditUserPasswordDto ): Promise<any> {
         console.log("TEST:",id,password)
         return this.usersService.update(id, password);
     }
-
+    
+    @UseGuards(JwtAuthGuard)
     @Delete('/:id')
     async delete(@Param('id') id: number): Promise<any>{
         const user= await this.usersService.findOne(id);
@@ -69,15 +75,4 @@ export class UsersController {
     //     console.log(body)
     //     return this.usersService.editUserPassword(parseInt(id), body.password)
     // }
-
-
-    @Get('/hello/:name/:surname')
-    sayHello(
-        @Param('name') name: string,
-        @Param('surname') surname: string,
-    ) {
-        return `Hello, ${name} ${surname}`
-    }
-
-
 }

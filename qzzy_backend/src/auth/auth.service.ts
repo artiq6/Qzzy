@@ -15,13 +15,11 @@ export class AuthService {
             throw new UnauthorizedException();
         }
         const payload = { sub: user.id, login: user.login };
-        console.log("TU")
         return {
             access_token: await this.jwtService.signAsync(payload),
         }
     }
     async validateUser(mail: string, password: string): Promise<any> {
-        console.log("VALIDUJE")
         const user = await this.usersService.findOneByEmail(mail);
         if (user && await bcrypt.compare(password, user.password)) {
             const { password, ...result } = user;
