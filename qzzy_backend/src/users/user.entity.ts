@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { UserData } from './user-data.entity';
 @Entity()
 export class User{
     @PrimaryGeneratedColumn()
@@ -16,4 +16,8 @@ export class User{
 
     @Column({default: false})
     is_admin: boolean;
+
+    @OneToOne(() => UserData, { cascade: true, eager: true })
+    @JoinColumn()
+    userData: UserData;
 }

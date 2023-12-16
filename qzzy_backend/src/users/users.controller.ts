@@ -14,16 +14,22 @@ export class UsersController {
         return this.usersService.findAll();
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get('/:id')
     async findOne(@Param('id') id: number) {
-        const user = await this.usersService.findOne(id);
+        const user = await this.usersService.getUser(id);
         if (!user) {
             throw new NotFoundException("User with id does not exist!")
         } else {
             return user;
         }
     }
+
+    @Post('/:id')
+    async modifyUser(@Param('id') id: number, @Body() data: Partial<User>) {
+        return this.usersService.modifyUser(id, data);
+    }
+
     @UseGuards(JwtAuthGuard)
     @Post('/email')
     async findByEmail(@Body() data: any){
@@ -34,6 +40,8 @@ export class UsersController {
             return user;
         }
     }
+
+
 
     @Post('/register')
     async register(@Body() user: CreateUserDto) {

@@ -1,7 +1,8 @@
-import { Injectable, ConflictException} from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
+import { UserData } from './user-data.entity';
 import * as bcrypt from "bcrypt";
 
 @Injectable()
@@ -19,13 +20,24 @@ export class UsersService {
         return this.usersRepository.findOne({ where: { id } });
     }
 
+    async getUser(id: number): Promise<User> {
+        const user = await this.usersRepository.findOne({
+            where: { id }, // Dodaj odpowiednie kryteria wyszukiwania
+            relations: ['userData'],
+        });
+        if(!user){
+            throw new NotFoundException(`User with id ${id} not found`);
+        }
+        return user;
+    }
+
     async findOneByEmail(mail: string): Promise<User> {
         return this.usersRepository.findOne({ where: { mail } })
     }
 
     async register(user: Partial<User>): Promise<User> {
         // Sprawdzenie, czy użytkownik o podanym mailu już istnieje
-        if(!user.mail){
+        if (!user.mail) {
             console.log("email jest pusty")
             throw new ConflictException('email jest pusty');
         }
@@ -55,4 +67,17 @@ export class UsersService {
         await this.usersRepository.delete(id);
     }
 
+    //TODO add DTO for modify (name, surname)
+    async modifyUser(id: number, data: any) {
+        const user =await this.getUser(id);
+        console.log(user, data.name, data.surname)
+        const userData = new UserData();
+        
+        userData.name=data.name;
+        userData.surname=data.surname;
+        userData.phone=data.phone;
+
+        user.userData=userData;
+        return this.usersRepository.save(user);
+    }
 }
