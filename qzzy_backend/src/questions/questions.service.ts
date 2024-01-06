@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Question } from './question.entity';
+import { EditQuestionDto } from './dtos/question.dto';
 
 @Injectable()
 export class QuestionService {
@@ -19,12 +20,23 @@ export class QuestionService {
         return this.questionRepository.find({ where: { quiz: { id: quizId } } });
     }
 
-    async findOne(id: number): Promise<Question>{
-        return this.questionRepository.findOne({where: {id}});
+    async findOne(id: number): Promise<Question> {
+        return this.questionRepository.findOne({ where: { id } });
+    }
+
+    async update(id: number, quizzData: EditQuestionDto): Promise<void> {
+        const question = await this.findOne(id);
+
+        if (!question) {
+            throw new NotFoundException(`Pytanie o id:${id} nie istnieje`);
+        }
+
+        this.questionRepository.merge(question, quizzData);
+        await this.questionRepository.save(question);
     }
 
     async remove(id: number): Promise<void> {
-        const question = await this.questionRepository.findOne({where: {id}});
+        const question = await this.questionRepository.findOne({ where: { id } });
         if (!question) {
             throw new NotFoundException(`Question with id ${id} not found`);
         }

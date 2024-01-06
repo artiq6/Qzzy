@@ -1,7 +1,8 @@
 
-import { Controller, Post, Body, Param, Get, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Param, Get, Delete, Put } from '@nestjs/common';
 import { QuestionService } from './questions.service';
 import { Question } from './question.entity';
+import { EditQuestionDto } from './dtos/question.dto';
 
 @Controller('quizzes/:id/questions')
 export class QuestionController {
@@ -14,11 +15,25 @@ export class QuestionController {
 
     @Get()
     async findAll(@Param('id') quizId: number): Promise<Question[]> {
+        console.log(quizId)
         return this.questionService.findAllByQuiz(quizId);
     }
 
-    @Delete('/:id')
-    async remove(@Param('id') id: number): Promise<void> {
+    @Get("/:qid")
+    async findOne(@Param('qid') quizId: number): Promise<Question> {
+        return this.questionService.findOne(quizId);
+    }
+
+    @Put('/:qid')
+    async update(
+        @Param('qid') id: number,
+        @Body() questionData: EditQuestionDto,
+    ): Promise<void> {
+        return await this.questionService.update(id, questionData);
+    }
+
+    @Delete('/:qid')
+    async remove(@Param('qid') id: number): Promise<void> {
         return this.questionService.remove(id);
     }
 }

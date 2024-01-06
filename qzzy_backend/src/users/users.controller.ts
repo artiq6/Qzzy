@@ -41,8 +41,6 @@ export class UsersController {
         }
     }
 
-
-
     @Post('/register')
     async register(@Body() user: CreateUserDto) {
         return this.usersService.register(user);
@@ -65,22 +63,4 @@ export class UsersController {
         }
         return this.usersService.delete(id);
     }
-    // @Post('/')
-    // addUser(@Body() body: CreateUserDto){
-    //     return this.usersService.addUser(body.email,body.login,body.password)
-    // }
-
-
-    // @Delete('/:id')
-    // @HttpCode(204)
-    // removeUser(@Param('id') id: string){
-    //     return this.usersService.removeById(parseInt(id));
-    // }
-
-
-    // @Patch('/:id')
-    // editUser(@Body() body: EditUserPasswordDto, @Param('id')id: string){
-    //     console.log(body)
-    //     return this.usersService.editUserPassword(parseInt(id), body.password)
-    // }
 }

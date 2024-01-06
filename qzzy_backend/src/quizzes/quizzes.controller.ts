@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Patch, Post, Query, Put } from '@nestjs/common';
 import { QuizzesService } from './quizzes.service';
 import { Quiz } from './quiz.entity';
-import {CreateQuizDto } from './dtos/quiz.dto';
+import { CreateQuizDto, EditQuizDto } from './dtos/quiz.dto';
 @Controller('quizzes')
 export class QuizzesController {
     constructor(private quizzesService: QuizzesService) { }
@@ -9,6 +9,11 @@ export class QuizzesController {
     @Get('/')
     async findAll(): Promise<Quiz[]> {
         return this.quizzesService.findAll();
+    }
+
+    @Get('/active')
+    async findAllActive(): Promise<Quiz[]> {
+        return this.quizzesService.findAllActive();
     }
 
     @Get('/:id')
@@ -26,17 +31,18 @@ export class QuizzesController {
         return this.quizzesService.add(quiz);
     }
 
-    // //update user
-    // @Put('/passwordedit/:id')
-    // async update(@Param('id') id: number, @Body() password:EditUserPasswordDto ): Promise<any> {
-    //     console.log("TEST:",id,password)
-    //     return this.usersService.update(id, password);
-    // }
+    @Put('/:id')
+    async update(
+        @Param('id') id: number,
+        @Body() quizzData: EditQuizDto,
+    ): Promise<void> {
+        await this.quizzesService.update(id, quizzData);
+    }
 
     @Delete('/:id')
-    async delete(@Param('id') id: number): Promise<any>{
-        const quiz= await this.quizzesService.findOne(id);
-        if(!quiz){
+    async delete(@Param('id') id: number): Promise<any> {
+        const quiz = await this.quizzesService.findOne(id);
+        if (!quiz) {
             throw new NotFoundException("Quiz does not exist!");
         }
         return this.quizzesService.delete(id);

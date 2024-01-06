@@ -7,7 +7,7 @@ export class AppController {
   constructor(private readonly appService: AppService, private readonly authService: AuthService) { }
 
   @Get()
-  @Redirect("https://nestjs.com", 301)
+  @Redirect("http://localhost:3001", 301)
   getHello(): string {
     return this.appService.getHello();
   }

@@ -14,3 +14,21 @@ export class CreateQuizDto{
     @IsOptional()
     is_active: boolean;
 }
+
+export class EditQuizDto{
+    @IsString()
+    @IsOptional()
+    name: string;
+
+    @IsString()
+    @IsOptional()
+    description: string;
+
+    @IsString()
+    @IsOptional()
+    img_url: string;
+
+    @IsBoolean()
+    @IsOptional()
+    is_active: boolean;
+}
