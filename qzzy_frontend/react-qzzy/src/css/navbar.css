@@ -1,0 +1,132 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+}
+
+.nav {
+    height: 50px;
+    width: 100%;
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+svg{
+    color:#2B78E4;
+}
+svg{
+    margin: 0 10px;
+}
+.fa-right-from-bracket{
+    color:#FF7171;
+}
+.nav img{
+    max-height: 80%;
+    margin:5px;
+}
+.nav > .nav-btn {
+    display: none;
+}
+
+.nav > .nav-links {
+    display: inline;
+    float: right;
+    font-size: 18px;
+}
+
+.nav > .nav-links > a {
+    display: inline-block;
+    padding: 13px 10px 13px 10px;
+    margin-left: 10px;
+    text-decoration: none;
+    color: #2C2738;
+    font-weight: bold;
+}
+.nav > .nav-links > .user-mobile{
+    display: none;
+}
+.user{
+    margin:0 60px 0 20px;
+}
+.user:before{
+    content: '';
+    width: 0;
+    border-left: 2px solid #D8D8D8;
+    margin-right: 10px;
+}
+
+.nav > .nav-links > a:hover {
+    background: #FFFFFF;
+    color: #2B78E4;
+    transition: all 0.1s ease-in;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav > #nav-check {
+    display: none;
+}
+
+@media (max-width:1100px) {
+    .nav > .nav-btn {
+        display: inline-block;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+    }
+    .nav > .nav-btn > label {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        padding: 13px;
+    }
+    .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
+        background: #FFFFFF;
+        color: #2B78E4;
+        transition: all 0.1s ease-in;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    }
+    .nav > .nav-btn > label > span {
+        display: block;
+        width: 25px;
+        height: 10px;
+        border-top: 2px solid #2C2738;
+    }
+    .nav > .nav-links {
+        position: absolute;
+        display: block;
+        width: 75%;
+        background-color: #FFFFFF;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+        height: 0px;
+        transition: all 0.3s ease-in;
+        overflow-y: hidden;
+        top: 50px;
+        left: 0px;
+    }
+    .nav > .nav-links > a {
+        display: block;
+        width: 100%;
+
+    }
+    .nav > .nav-links > .user{
+        display: none;
+    }
+    .user-mobile{
+        min-height: 50px;
+        margin:2em 1em 1em 1em;
+        border-bottom: 2px solid #D8D8D8;
+    }
+
+    .nav > .nav-links > .user-mobile{
+        display: block;
+    }
+    .nav > #nav-check:not(:checked) ~ .nav-links {
+        height: 0px;
+    }
+    .nav > #nav-check:checked ~ .nav-links {
+        height: calc(100vh - 50px);
+        overflow-y: auto;
+    }
+}

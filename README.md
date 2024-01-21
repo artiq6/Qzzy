@@ -36,19 +36,4 @@ Aplikacja zapewnia zarówno użytkownikom, jak i administratorom funkcjonalnośc
 ![ERD](./erd_qzzy.png)  
 
 ### Endpointy:
-#### users:
-- POST /users/register
-- POST /users/login
-- PUT /users/{userID}
-- GET /users/{userID}
-- GET /users
-- DELETE /users/{userID}
-
-#### quizzes:
-- GET /quizzes
-- POST /quizzes/add
-- PUT /quizzes/{quizID}
-- DELETE /quizzes/{quizID}
-
-#### score:
-- GET /score
+#![Endpoints](./endpoints.png)  
