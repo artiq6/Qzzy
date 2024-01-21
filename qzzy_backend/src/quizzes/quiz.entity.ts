@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 import { Question } from "../questions/question.entity";
 import { Tag } from "./tags.entity";
+import { Score } from 'src/scores/score.entity';
 @Entity()
 export class Quiz {
     @PrimaryGeneratedColumn()
@@ -27,4 +28,7 @@ export class Quiz {
     @ManyToMany(type => Tag)
     @JoinTable()
     tags: Tag[];
+
+    @OneToMany(() => Score, score => score.quiz)
+    score: Score[];
 }

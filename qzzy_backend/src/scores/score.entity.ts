@@ -1,14 +1,19 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { User } from 'src/users/user.entity';
+import { Quiz } from 'src/quizzes/quiz.entity';
+
 @Entity()
 export class Score{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    user_id: number;
-
-    @Column()
-    quiz_id: number;
+    @ManyToOne(() => User, user => user.score)
+    @JoinColumn({ name: 'user_id' })
+    user: User;
+  
+    @ManyToOne(() => Quiz, quiz => quiz.score)
+    @JoinColumn({ name: 'quiz_id' })
+    quiz: Quiz;
 
     @Column()
     correct_answers: number;

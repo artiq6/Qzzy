@@ -32,6 +32,9 @@ Aplikacja zapewnia zarówno użytkownikom, jak i administratorom funkcjonalnośc
 - modyfikacja quizów i użytkowników
 - reszta uprawnień jak użytkownik
 
+### ERD:
+![ERD](./erd_qzzy.png)  
+
 ### Endpointy:
 #### users:
 - POST /users/register

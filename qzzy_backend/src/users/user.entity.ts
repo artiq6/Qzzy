@@ -1,5 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany} from 'typeorm';
 import { UserData } from './user-data.entity';
+import { Score } from 'src/scores/score.entity';
+
 @Entity()
 export class User{
     @PrimaryGeneratedColumn()
@@ -20,4 +22,7 @@ export class User{
     @OneToOne(() => UserData, { cascade: true, eager: true })
     @JoinColumn()
     userData: UserData;
+
+    @OneToMany(() => Score, score => score.user)
+    score: Score[];
 }
