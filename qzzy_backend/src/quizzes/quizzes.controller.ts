@@ -27,8 +27,8 @@ export class QuizzesController {
     }
 
     @Post('/add')
-    async add(@Body() quiz: CreateQuizDto) {
-        return this.quizzesService.add(quiz);
+    async add(@Body() quizData: CreateQuizDto) {
+        return this.quizzesService.add(quizData);
     }
 
     @Put('/:id')

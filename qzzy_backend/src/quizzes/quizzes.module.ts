@@ -9,9 +9,10 @@ import { Question } from "../questions/question.entity";
 import { Score } from "../scores/score.entity"
 import { ScoresService } from "src/scores/scores.service";
 import { ScoresController } from "src/scores/scores.controller";
+import { Tag } from "./tags.entity";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Quiz, Question, Score]),],
+    imports: [TypeOrmModule.forFeature([Quiz, Question, Tag, Score]),],
     controllers: [QuizzesController, QuestionController, ScoresController],
     providers: [QuizzesService, QuestionService, ScoresService],
 })

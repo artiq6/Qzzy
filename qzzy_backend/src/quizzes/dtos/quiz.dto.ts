@@ -1,4 +1,4 @@
-import {IsString, IsOptional, IsBoolean} from "class-validator";
+import {IsString, IsOptional, IsBoolean, IsArray} from "class-validator";
 export class CreateQuizDto{
     @IsString()
     name: string;
@@ -13,6 +13,10 @@ export class CreateQuizDto{
     @IsBoolean()
     @IsOptional()
     is_active: boolean;
+
+    @IsArray()
+    @IsOptional()
+    tags: [];
 }
 
 export class EditQuizDto{
@@ -31,4 +35,8 @@ export class EditQuizDto{
     @IsBoolean()
     @IsOptional()
     is_active: boolean;
+
+    @IsArray()
+    @IsOptional()
+    tags: [];
 }

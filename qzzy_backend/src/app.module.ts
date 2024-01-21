@@ -8,6 +8,7 @@ import { DataSource } from 'typeorm';
 import { User } from './users/user.entity';
 import { Question } from './questions/question.entity';
 import { Quiz } from './quizzes/quiz.entity';
+import { Tag } from './quizzes/tags.entity';
 import { Score } from './scores/score.entity';
 import { AuthModule } from './auth/auth.module';
 import {ConfigModule} from '@nestjs/config';
@@ -24,7 +25,7 @@ import { UserData } from './users/user-data.entity';
       database: 'qzzy',
       synchronize: true,
       logging: true,
-      entities: [User,UserData,Quiz,Question,Score],
+      entities: [User,UserData,Quiz,Question,Tag,Score],
     }),
     UsersModule, 
     QuizzesModule, 
