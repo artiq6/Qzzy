@@ -4,6 +4,10 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import AdminQuestionAdd from './admin-quiz-edit-add-question'
 import QuizQuestionList from './admin_quiz_questions_list'
+import authHeader from "../services/auth-header";
+import toast from 'react-simple-toasts';
+import 'react-simple-toasts/dist/theme/failure.css';
+import 'react-simple-toasts/dist/theme/success.css';
 
 const AdminQuizEdit = () => {
     const { id } = useParams();
@@ -21,7 +25,7 @@ const AdminQuizEdit = () => {
 
     const apiEndpoint = `http://localhost:3000/quizzes/${id}`
     const getQuizzData = () => {
-        axios.get(apiEndpoint)
+        axios.get(apiEndpoint, { headers: authHeader() })
             .then(response => {
                 console.log(response.data)
                 response.data.tags = response.data.tags.map(tag => tag.name).join(",");
@@ -30,7 +34,7 @@ const AdminQuizEdit = () => {
             .catch(error => console.error('Błąd podczas pobierania danych quizzu', error));
     }
     const getQuestionsData = () => {
-        axios.get(apiEndpoint + "/questions")
+        axios.get(apiEndpoint + "/questions", { headers: authHeader() })
             .then(response => {
                 console.log(response.data)
                 setQuizQuestions(response.data)
@@ -60,12 +64,20 @@ const AdminQuizEdit = () => {
         } else {
             quizzData.tags = []
         }
-        axios.put(apiEndpoint, quizzData)
+        axios.put(apiEndpoint, quizzData, { headers: authHeader() })
             .then(response => {
                 console.log(response.data)
+                toast("Zmodyfikowano poprawnie",{
+                    theme: "success",
+                })
                 getQuizzData()
             })
-            .catch(error => console.error('Błąd podczas zmiany danych użytkownika', error));
+            .catch(error => {
+                console.error('Błąd podczas zmiany danych użytkownika', error)
+                toast("Błąd podczas zmiany danych użytkownika",{
+                    theme: "failure",
+                })
+            });
     };
 
     return (

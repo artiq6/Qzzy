@@ -30,8 +30,8 @@ const Login = () => {
         console.log('Form submitted:', formData);
         AuthService.login(formData.mail, formData.password).then(
             x => {
-                toast("Logowanie zakończona pomyślnie",{
-                    duration: 2000,
+                toast("Logowanie zakończone pomyślnie",{
+                    duration: 1000,
                     theme: "success",
                     onClose:(event) => window.location.href = '/',
                 })

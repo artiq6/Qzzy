@@ -7,9 +7,7 @@ import 'react-simple-toasts/dist/theme/failure.css';
 import 'react-simple-toasts/dist/theme/success.css';
 
 const Profile = () => {
-
     const currentUser = AuthService.getCurrentUser();
-    console.log(currentUser.sub)
 
     const [userData, setUserData] = useState({
         name: '',
@@ -18,8 +16,11 @@ const Profile = () => {
     });
 
     const [editMode, setEditMode] = useState(false);
-    const apiEndpoint = `http://localhost:3000/users/${currentUser.sub}`
+    const apiEndpoint = currentUser?.sub? `http://localhost:3000/users/${currentUser.sub}` : null;
     const getUserData = () => {
+        if(!apiEndpoint){
+            return;
+        }
         axios.get(apiEndpoint)
             .then(response => {
                 console.log(response.data)
@@ -27,7 +28,12 @@ const Profile = () => {
                     setUserData(response.data.userData)
                 }
             })
-            .catch(error => console.error('Błąd podczas pobierania danych użytkownika', error));
+            .catch(error => {
+                toast('Błąd podczas pobierania danych użytkownika',{
+                    theme: "failure",
+                })
+                console.error('Błąd podczas pobierania danych użytkownika', error)
+        });
     }
 
     useEffect(() => {
@@ -62,8 +68,8 @@ const Profile = () => {
             <Navigation></Navigation>
             <div className="quiz-main wrapper">
                 <h1>Profil</h1>
-                <h3>{currentUser.mail}</h3>
-                <h3>{currentUser.access_token.substr(currentUser.access_token.length - 20)}</h3>
+                <h3>{currentUser?.mail}</h3>
+                <h3>{currentUser?.access_token.substr(currentUser.access_token.length - 20)}</h3>
                 {editMode ? (
                     <div id="editUserForm" class="editForm">
                         <label htmlFor="name">Imię</label>

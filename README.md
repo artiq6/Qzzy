@@ -36,4 +36,4 @@ Aplikacja zapewnia zarówno użytkownikom, jak i administratorom funkcjonalnośc
 ![ERD](./erd_qzzy.png)  
 
 ### Endpointy:
-#![Endpoints](./endpoints.png)  
+![Endpoints](./endpoints.png)  

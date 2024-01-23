@@ -40,6 +40,7 @@
 
 @media screen and (max-width: 600px) {
     .table {
+        text-align: center;
         display: block;
     }
     .cell {

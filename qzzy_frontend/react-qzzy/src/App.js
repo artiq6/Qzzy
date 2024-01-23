@@ -1,36 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
 
 import AuthService from "./services/auth.service";
-
 import Login from "./components/login";
 import Register from "./components/register";
-// import Home from "./components/Home";
 import Profile from "./components/profile";
 import QuizList from "./components/quizlist";
 import Quiz from "./components/quiz";
 import AdminQuizEdit from "./components/admin-quiz-edit";
 import AdminQuiz from "./components/admin-quiz";
 import Score from "./components/score";
+import AuthVerify from "./common/AuthVerify";
 
 const App = () => {
-  const [showModeratorBoard, setShowModeratorBoard] = useState(false);
-  const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
-
+  const isUserEmpty = !localStorage.getItem('user');
+  const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => {
+    console.log(location.pathname)
     const user = AuthService.getCurrentUser();
-    console.log(user)
-
     if (user) {
       setCurrentUser(user);
-      // setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
-      // setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
     }
-  }, []);
+    if (isUserEmpty && location.pathname!="/register") {
+      console.log()
+      navigate('/login')
+    }
+  }, [isUserEmpty]);
   
   return (
+    <>
     <div>
         <Routes>
           <Route path="/" element={<QuizList/>} />
@@ -44,6 +45,8 @@ const App = () => {
           <Route path="/score" element={<Score/>} />
         </Routes>
     </div>
+    <AuthVerify/>
+    </>
   );
 };
 

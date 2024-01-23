@@ -8,11 +8,11 @@ import AuthService from '../services/auth.service'
 
 const Navigation = () => {
     const [currentUser, setCurrentUser] = useState({ is_admin: false, mail: "" });
+    const [user, setUser] = useState(AuthService.getCurrentUser())
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const user = await AuthService.getCurrentUser();
                 // user.is_admin=true
                 setCurrentUser(user);
                 console.log(user);
@@ -21,7 +21,7 @@ const Navigation = () => {
             }
         };
         fetchData();
-    }, []);
+    }, [user]);
 
     const logOut = () => {
         AuthService.logout();
@@ -43,7 +43,7 @@ const Navigation = () => {
                 <div className="nav-links">
                     <span className="user-mobile">
                         <FontAwesomeIcon icon={faCircleUser} size="2x" />
-                        <b>Witaj {currentUser.mail}</b>
+                        <b>Witaj {currentUser? currentUser.mail: "guest"}</b>
                         <Link to="/login">
                             <FontAwesomeIcon icon={faRightFromBracket} />
                         </Link>
@@ -62,10 +62,6 @@ const Navigation = () => {
                     </Link>
                     {currentUser.is_admin ? (
                         <>
-                            <Link to="/admin_users">
-                                <FontAwesomeIcon icon={faGear} />
-                                ADM konta
-                            </Link>
                             <Link to="/admin_quiz">
                                 <FontAwesomeIcon icon={faClipboardQuestion} />
                                 ADM qzzy

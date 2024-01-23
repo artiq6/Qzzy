@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navigation from './navigation';
-import "../css/home.css"
+import "../css/home.css";
+import authHeader from "../services/auth-header";
+
 const QuizList = () => {
     const [quizzes, setQuizzes] = useState([]);
     const apiUrl = 'http://localhost:3000/quizzes/active'; // Replace with your actual API endpoint
 
     useEffect(() => {
-        axios.get(apiUrl)
+        axios.get(apiUrl, { headers: authHeader() })
             .then(response =>
                 setQuizzes(response.data)
-
             )
             .catch(error => console.error('Error fetching quizzes:', error));
     }, []);

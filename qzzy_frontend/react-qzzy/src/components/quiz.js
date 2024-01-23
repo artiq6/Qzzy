@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import "../css/quiz.css"
 import QuizQuestion from './quiz_question';
 import AuthService from '../services/auth.service'
+import authHeader from "../services/auth-header";
 
 const Quiz = () => {
     const [quizData, setQuizData] = useState({});
@@ -14,12 +15,12 @@ const Quiz = () => {
     const apiUrl = `http://localhost:3000/quizzes/${id}`;
 
     useEffect(() => {
-        axios.get(apiUrl)
+        axios.get(apiUrl, { headers: authHeader() })
             .then(response => {
                 setQuizData(response.data)
             })
             .catch(error => console.error('Error fetching quiz data:', error));
-        axios.get(apiUrl + "/questions")
+        axios.get(apiUrl + "/questions", { headers: authHeader() })
             .then(response => {
                 setQuizQuestions(response.data)
             })
@@ -55,7 +56,7 @@ const Quiz = () => {
             correct_answers: userPoints,
             all_answers: poinstForQuiz
         }
-        axios.post(`http://localhost:3000/quizzes/scores/${id}`, scoreData)
+        axios.post(`http://localhost:3000/quizzes/scores/${id}`, scoreData, { headers: authHeader() })
         .then(response => {
             console.log(response)
         })

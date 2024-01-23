@@ -5,9 +5,12 @@ import "../css/table.css"
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPen } from "@fortawesome/free-solid-svg-icons";
+import authHeader from "../services/auth-header";
+import toast from 'react-simple-toasts';
+import 'react-simple-toasts/dist/theme/failure.css';
+import 'react-simple-toasts/dist/theme/success.css';
 
 const AdminQuiz = () => {
-    const [message, setMessage] = useState('');
     const [quizzes, setQuizzes] = useState([]);
     const [newQuiz, setNewQuiz] = useState({
         id: null,
@@ -20,14 +23,13 @@ const AdminQuiz = () => {
 
     const apiUrl = `http://localhost:3000/quizzes`;
     const getQuizes = () => {
-        axios.get(apiUrl)
+        axios.get(apiUrl, { headers: authHeader() })
             .then(response => {
                 console.log(response.data)
                 setQuizzes(response.data)
             })
             .catch(error => {
                 console.error('Error fetching quiz data:', error)
-                setMessage(error.message)
             });
     }
     useEffect(() => {
@@ -42,7 +44,7 @@ const AdminQuiz = () => {
         }
 
         e.preventDefault();
-        axios.post('http://localhost:3000/quizzes/add', newQuiz)
+        axios.post('http://localhost:3000/quizzes/add', newQuiz, { headers: authHeader() })
             .then(response => {
                 console.log(response.data)
                 setNewQuiz({
@@ -53,9 +55,17 @@ const AdminQuiz = () => {
                     img_url: '',
                     is_active: false,
                 })
+                toast("Quiz dodany prawidłowo",{
+                    theme: "success",
+                })
                 getQuizes()
             })
-            .catch(error => console.error('Error fetching quiz data:', error));
+            .catch(error => {
+                console.error('Błąd pobierania danych o quizie', error)
+                toast("Błąd pobierania danych o quizie",{
+                    theme: "failure",
+                })
+            });
     };
 
     const handleInputChange = (e) => {
@@ -69,19 +79,21 @@ const AdminQuiz = () => {
         });
     };
 
-    const handleEditButton = (id) => {
-        console.log(id)
-    }
     const handleDeleteButton = (id) => {
         console.log("DELETING:", id)
-        axios.delete(`http://localhost:3000/quizzes/${id}`)
+        axios.delete(`http://localhost:3000/quizzes/${id}`, { headers: authHeader() })
             .then(response => {
                 console.log(response.status)
+                toast("Usunięto",{
+                    theme: "success",
+                })
                 getQuizes()
             })
             .catch(error => {
-                console.error('Error removing quiz:', error)
-                setMessage(error.message)
+                console.error('Błąd usuwania quizu', error)
+                toast("Błąd usuwania quizu",{
+                    theme: "failure",
+                })
             });
     }
 
@@ -90,7 +102,6 @@ const AdminQuiz = () => {
             <Navigation></Navigation>
             <div className="wrapper">
                 <h1>Dodaj nowy quiz</h1>
-                <div id="error">{message}</div>
                 <form id="loginform" onSubmit={handleFormSubmit}>
                     <label htmlFor="name">Nazwa</label>
                     <input

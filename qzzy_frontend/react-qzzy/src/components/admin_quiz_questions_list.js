@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPen } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
+import authHeader from "../services/auth-header";
+import toast from 'react-simple-toasts';
+import 'react-simple-toasts/dist/theme/failure.css';
+import 'react-simple-toasts/dist/theme/success.css';
 
 const QuizQuestionList = ({ question, updateQuestions, id }) => {
     const [editMode, setEditMode] = useState(false)
@@ -43,21 +45,37 @@ const QuizQuestionList = ({ question, updateQuestions, id }) => {
 
     const handleSaveChanges = async (e) => {
         console.log(apiEndpoint,questionData)
-        axios.put(apiEndpoint, questionData)
+        axios.put(apiEndpoint, questionData, { headers: authHeader() })
             .then(response => {
                 setEditMode(!editMode)
                 console.log("put:",response.data)
+                toast("Zmodyfikowana poprawnie",{
+                    theme: "success",
+                })
                 updateQuestions()
             })
-            .catch(error => console.error('Błąd podczas edycji pytania', error));
+            .catch(error => {
+                toast("Błąd podczas edycji",{
+                    theme: "failure",
+                })
+                console.error('Błąd podczas edycji pytania', error)
+            });
     };
     const handleDelete = async (e) => {
-        axios.delete(apiEndpoint)
+        axios.delete(apiEndpoint, { headers: authHeader() })
             .then(response => {
                 console.log(response.data)
+                toast("Usunięto poprawnie",{
+                    theme: "success",
+                })
                 updateQuestions()
             })
-            .catch(error => console.error('Błąd podczas usuwania pytania', error));
+            .catch(error =>{
+                console.error('Błąd podczas usuwania pytania', error);
+                toast("Błąd podczas usuwania pytania",{
+                    theme: "failure",
+                })
+            })
     };
     return (
         <div className="quiz-main">

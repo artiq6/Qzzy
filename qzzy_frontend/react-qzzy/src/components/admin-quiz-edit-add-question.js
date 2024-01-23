@@ -1,7 +1,11 @@
 
 import React, { useState } from "react"
 import axios from 'axios';
-import "../css/quiz.css"
+import "../css/quiz.css";
+import authHeader from "../services/auth-header";
+import toast from 'react-simple-toasts';
+import 'react-simple-toasts/dist/theme/failure.css';
+import 'react-simple-toasts/dist/theme/success.css';
 
 const AdminQuestionAdd = ({ id, updateQuestions }) => {
     const [questionData, setQuestionData] = useState({
@@ -31,7 +35,7 @@ const AdminQuestionAdd = ({ id, updateQuestions }) => {
 
 
     const handleSaveChanges = async (e) => {
-        axios.post(apiEndpoint, questionData)
+        axios.post(apiEndpoint, questionData, { headers: authHeader() } )
             .then(response => {
                 console.log(response.data)
                 setQuestionData({
@@ -42,9 +46,17 @@ const AdminQuestionAdd = ({ id, updateQuestions }) => {
                     d: "",
                     correct: ""
                 });
+                toast("Zmodyfikowano poprawnie",{
+                    theme: "success",
+                })
                 updateQuestions()
             })
-            .catch(error => console.error('Błąd dodawania pytania', error));
+            .catch(error => {
+                console.error('Błąd dodawania pytania', error)
+                toast("Błąd dodawania pytania",{
+                    theme: "failure",
+                })
+            });
     };
 
     return (

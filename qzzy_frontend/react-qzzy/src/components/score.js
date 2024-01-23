@@ -1,4 +1,3 @@
-import AuthService from "../services/auth.service";
 import Navigation from "./navigation";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';

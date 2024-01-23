@@ -1,7 +1,10 @@
-import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Patch, Post, Query, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param,  Post, Put, UseGuards } from '@nestjs/common';
 import { QuizzesService } from './quizzes.service';
 import { Quiz } from './quiz.entity';
 import { CreateQuizDto, EditQuizDto } from './dtos/quiz.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+
+@UseGuards(JwtAuthGuard)
 @Controller('quizzes')
 export class QuizzesController {
     constructor(private quizzesService: QuizzesService) { }
