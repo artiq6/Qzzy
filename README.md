@@ -1,6 +1,8 @@
 # QZZY
-
 Projekt prostej aplikacji do przeprowadzania quizów. 
+
+## Showcase
+![GifShowcase](./showcase.gif)  
 ---
 
 ## technologie:
