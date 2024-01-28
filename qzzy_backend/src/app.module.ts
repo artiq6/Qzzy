@@ -11,7 +11,6 @@ import { Quiz } from './quizzes/quiz.entity';
 import { Tag } from './quizzes/tags.entity';
 import { Score } from './scores/score.entity';
 import { AuthModule } from './auth/auth.module';
-import {ConfigModule} from '@nestjs/config';
 import { UserData } from './users/user-data.entity';
 
 @Module({
